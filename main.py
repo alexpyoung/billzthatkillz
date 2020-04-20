@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 import os
@@ -30,7 +30,8 @@ class Purchase:
 
     def __init__(self, date, vendor, cost):
         self.date = date
-        self.vendor = re.sub(r'([0-9]+)', '', vendor.strip()) # Strip digits for better coalescing
+        # Strip digits for better coalescing
+        self.vendor = re.sub(r'([0-9]+)', '', vendor.strip())
         self.cost = Money(amount=cost, currency="USD")
 
 

@@ -8,7 +8,7 @@ RUN pip install money pdf2image pyocr
 RUN pip install isort pylint ipython
 
 RUN mkdir -p /opt/btk/
-COPY . /opt/btk
-RUN ln -s /opt/btk/src/main /usr/local/bin/btk
+WORKDIR /opt/btk
+COPY . ./
 
-CMD ["btk"]
+CMD ["python", "-m", "main"]

@@ -6,13 +6,3 @@ services:
     volumes:
       - .:/opt/btk
       - /tmp/btk:/tmp/btk # Cache intermediate text output for faster development
-  lint:
-    build: .
-    volumes:
-      - .:/opt/btk
-    command: "pylint --rcfile /opt/btk/.pylintrc /opt/btk/src/main"
-  sort:
-    build: .
-    volumes:
-      - .:/opt/btk
-    command: "isort /opt/btk/src/main"
