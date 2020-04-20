@@ -5,6 +5,7 @@ backcall==0.1.0
 black==19.10b0
 click==7.1.1
 decorator==4.4.2
+Django==3.0.5
 entrypoints==0.3
 flake8==3.7.9
 ipython==7.13.0
@@ -20,6 +21,7 @@ pexpect==4.8.0
 pickleshare==0.7.5
 Pillow==7.1.1
 prompt-toolkit==3.0.5
+psycopg2==2.8.5
 ptyprocess==0.6.0
 pycodestyle==2.5.0
 pyflakes==2.1.1

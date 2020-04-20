@@ -1,13 +1,27 @@
-version: "3"
-
+version: '3'
 services:
   app:
     build: .
-    volumes: # Development conveniences
-      - .:/opt/btk # Minimize image rebuilding
-      - /tmp/btk:/tmp/btk # Cache intermediate text output
+    volumes:
+      - '.:/opt/btk'
+      - '/tmp/btk:/tmp/btk'
   ci:
     build: .
     volumes:
-      - .:/opt/btk
+      - '.:/opt/btk'
     command: bash -c "isort main.py && black . && flake8"
+  postgres:
+    image: 'postgres:12'
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  django:
+    build: .
+    command: 'python manage.py runserver 0.0.0.0:8000'
+    volumes:
+      - '.:/opt/btk'
+    ports:
+      - '8000:8000'
+    depends_on:
+      - postgres
