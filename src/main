@@ -159,6 +159,16 @@ def cost_by_vendor(purchases):
     return {k: v for k, v in sorted(unique_vendors.items(), key=itemgetter(1))}
 
 
+def total_cost(purchases):
+    total = {}
+    for purchase in purchases:
+        c = purchase.cost.currency
+        subtotal = total.get(c, Money(amount="0", currency=c))
+        subtotal = subtotal + purchase.cost
+        total[c] = subtotal
+    return total
+
+
 def main():
     temp_dir = "/tmp/btk"
     os.makedirs(temp_dir, exist_ok=True)
@@ -170,6 +180,9 @@ def main():
     vendors = cost_by_vendor(purchases)
     for vendor, cost in vendors.items():
         logger.info("%s %8.2f %s", cost.currency, cost.amount, vendor)
+    totals = total_cost(purchases)
+    for currency, total in totals.items():
+        logger.info("%s %8.2f ==∙∙=== TOTAL ===∙∙==", currency, total)
 
 
 if __name__ == "__main__":
