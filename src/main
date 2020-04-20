@@ -1,0 +1,108 @@
+#!/usr/bin/env python
+
+import glob
+import logging
+import os
+import re
+import sys
+from datetime import datetime
+
+import pyocr
+import pyocr.builders
+from money import Money
+from pdf2image import convert_from_path
+from PIL import Image
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+logger.addHandler(logging.StreamHandler(sys.stdout))
+
+
+class Purchase:
+    """
+    Rich data type for provider agnostic purchases
+    """
+    def __init__(self, date, vendor, cost):
+        self.date = datetime.strptime(date, "%m/%d")
+        self.vendor = vendor.strip()
+        self.cost = Money(amount=cost, currency="USD")
+
+
+def process_pdfs(input_glob, output_folder):
+    """
+    Convert PDFs to JPGs
+    """
+    for abspath in glob.glob(input_glob):
+        filename = os.path.basename(abspath)
+        logger.info("Converting %s...", filename)
+        convert_from_path(
+            abspath,
+            fmt='jpeg',
+            output_folder=output_folder,
+            output_file=os.path.splitext(filename)[0],
+        )
+
+
+def process_jpgs(input_glob, output_file):
+    """
+    Perform OCR on JPGs
+    """
+    # The tools are returned in the recommended order of usage
+    tool = pyocr.get_available_tools()[0]
+    logger.info("Will use tool '%s'", tool.get_name())
+
+    langs = tool.get_available_languages()
+    logger.info("Available languages: %s", ", ".join(langs))
+    lang = langs[0]
+    logger.info("Will use lang '%s'", lang)
+
+    with open(output_file, "w") as output:
+        for image in glob.glob(input_glob):
+            logger.info("Processing %s...", image)
+            text = tool.image_to_string(
+                Image.open(image),
+                lang=lang,
+                builder=pyocr.builders.TextBuilder()
+            )
+            output.write(text)
+
+
+def parse_chase_text(text_file):
+    """
+    Model purchases from text input
+    """
+    date_regex = r'^([0-9]{2}\/[0-9]{2})'
+    price_regex = r'\s([0-9]{1,5}\.[0-9]{2})$'
+    patterns = {
+        "date": re.compile(date_regex),
+        "price": re.compile(price_regex),
+    }
+    purchases = []
+    with open(text_file, "r") as text:
+        for line in text:
+            date_test = patterns["date"].findall(line)
+            price_test = patterns["price"].findall(line)
+            if date_test and price_test:
+                purchases.append(Purchase(
+                    date_test[0],
+                    re.sub(date_regex, '', re.sub(price_regex, '', line)),
+                    price_test[0],
+                ))
+
+    for purchase in purchases:
+        logger.debug(purchase.__dict__)
+
+
+def main():
+    temp_dir = "/tmp/btk"
+    os.makedirs(temp_dir, exist_ok=True)
+    raw_text = f"{temp_dir}/output.txt"
+    inputs = f"/opt/btk/pdf/*.pdf"
+
+    process_pdfs(inputs, temp_dir)
+    process_jpgs(f"{temp_dir}/*.jpg", raw_text)
+    parse_chase_text(raw_text)
+
+
+if __name__ == "__main__":
+    sys.exit(main())
