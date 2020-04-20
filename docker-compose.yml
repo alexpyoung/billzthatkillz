@@ -3,6 +3,11 @@ version: "3"
 services:
   app:
     build: .
+    volumes: # Development conveniences
+      - .:/opt/btk # Minimize image rebuilding
+      - /tmp/btk:/tmp/btk # Cache intermediate text output
+  ci:
+    build: .
     volumes:
       - .:/opt/btk
-      - /tmp/btk:/tmp/btk # Cache intermediate text output for faster development
+    command: bash -c "isort main.py && black . && flake8"

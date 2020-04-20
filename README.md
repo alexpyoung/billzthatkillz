@@ -5,21 +5,18 @@ Rudimentary analysis of bank and credit card statements
 ```
 mkdir -p pdf
 cp path/to/pdfs ./pdf
-docker-compose up
+docker-compose up app
 ```
 
 ## Development
-### pylint
+### Static Analysis
 ```
-docker-compose run app pylint .
-```
-
-### isort
-```
-docker-compose run app isort
+docker-compose up ci
 ```
 
-### iPython
+### REPL
 ```
 docker-compose run app ipython
+...
+In [1]: import main
 ```
