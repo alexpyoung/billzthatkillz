@@ -24,7 +24,7 @@ class Purchase:
     Rich data type for provider agnostic purchases
     """
     def __init__(self, date, vendor, cost):
-        self.date = datetime.strptime(date, "%m/%d")
+        self.date = datetime.strptime(f"{date}/20", "%m/%d/%y") # FIXME: Hardcoded year
         self.vendor = vendor.strip()
         self.cost = Money(amount=cost, currency="USD")
 
