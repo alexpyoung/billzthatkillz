@@ -6,6 +6,7 @@ import os
 import re
 import sys
 from datetime import datetime
+from operator import itemgetter
 
 import pyocr
 import pyocr.builders
@@ -93,6 +94,21 @@ def parse_chase_text(input_glob):
     return purchases
 
 
+def cost_by_vendor(purchases):
+    unique_vendors = {}
+    for purchase in purchases:
+        subtotal = unique_vendors.get(
+            purchase.vendor,
+            Money(amount="0", currency=purchase.cost.currency)
+        )
+        subtotal = subtotal + purchase.cost
+        unique_vendors[purchase.vendor] = subtotal
+    logger.debug(len(unique_vendors))
+    sorted_vendors = {k: v for k, v in sorted(unique_vendors.items(), key=itemgetter(1))}
+    for vendor, cost in sorted_vendors.items():
+        logger.debug("%s %8.2f %s", cost.currency, cost.amount, vendor)
+
+
 def main():
     temp_dir = "/tmp/btk"
     os.makedirs(temp_dir, exist_ok=True)
@@ -100,6 +116,7 @@ def main():
     process_pdfs(f"/opt/btk/pdf/*.pdf", temp_dir)
     process_jpgs(f"{temp_dir}/*.jpg", temp_dir)
     chase_purchases = parse_chase_text(f"{temp_dir}/*.txt")
+    cost_by_vendor(chase_purchases)
 
 
 if __name__ == "__main__":
