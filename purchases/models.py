@@ -12,6 +12,7 @@ class Purchase(BaseModel):
     vendor = models.ForeignKey(Vendor, null=True, on_delete=models.SET_NULL)
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     currency = models.CharField(max_length=8)
+    name = models.CharField(max_length=2048)
 
     @classmethod
     def sanitize(cls, date, vendor_name, cost):
@@ -22,6 +23,7 @@ class Purchase(BaseModel):
         )
         return cls(
             date=date,
+            name=vendor_name,
             vendor=vendor,
             amount=amount.amount,
             currency=amount.currency,

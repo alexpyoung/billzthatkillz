@@ -12,7 +12,9 @@ class PurchaseAdmin(admin.ModelAdmin):
             f"/admin/vendors/vendor/{purchase.vendor.id}", purchase.vendor.name
         )
 
-    fields = ("id", "date", "vendor_link", "amount", "currency")
+    vendor_link.short_description = "vendor"
+
+    fields = ("id", "date", "name", "vendor_link", "amount", "currency")
     readonly_fields = ("id", "date", "vendor_link", "amount", "currency")
     date_hierarchy = "date"
     list_display = ("id", "date", "vendor_link", "amount", "currency")

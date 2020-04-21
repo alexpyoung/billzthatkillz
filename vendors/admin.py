@@ -10,10 +10,18 @@ class VendorPurchaseAdmin(admin.TabularInline):
     def id_link(self, purchase):
         return link(f"/admin/purchases/purchase/{purchase.id}", purchase.id)
 
+    id_link.short_description = "id"
+
     model = Purchase
     fk_name = "vendor"
-    readonly_fields = ("id_link", "date", "vendor", "amount", "currency")
-    list_display = ("id_link", "date", "vendor", "amount", "currency")
+    readonly_fields = (
+        "id_link",
+        "name",
+        "date",
+        "vendor",
+        "amount",
+        "currency",
+    )
     can_delete = False
 
 
