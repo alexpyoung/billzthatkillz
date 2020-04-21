@@ -5,7 +5,7 @@ Rudimentary analysis of bank and credit card statements
 ```
 mkdir -p pdf
 cp path/to/pdfs ./pdf
-docker-compose up app
+docker-compose run django python manage.py import_pdfs
 ```
 
 ## Development
@@ -16,7 +16,5 @@ docker-compose up ci
 
 ### REPL
 ```
-docker-compose run app ipython
-...
-In [1]: import main
+docker-compose run django python manage.py shell
 ```

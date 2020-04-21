@@ -1,15 +1,5 @@
 version: '3'
 services:
-  app:
-    build: .
-    volumes:
-      - '.:/opt/btk'
-      - '/tmp/btk:/tmp/btk'
-  ci:
-    build: .
-    volumes:
-      - '.:/opt/btk'
-    command: bash -c "isort main.py && black . && flake8"
   postgres:
     image: 'postgres:12'
     environment:
@@ -21,7 +11,13 @@ services:
     command: 'python manage.py runserver 0.0.0.0:8000'
     volumes:
       - '.:/opt/btk'
+      - '/tmp/btk:/tmp/btk'
     ports:
       - '8000:8000'
     depends_on:
       - postgres
+  ci:
+    build: .
+    volumes:
+      - '.:/opt/btk'
+    command: bash -c "isort -rc . && black . && flake8 ."

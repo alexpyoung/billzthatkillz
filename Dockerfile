@@ -10,5 +10,3 @@ COPY requirements.txt ./
 RUN pip install --upgrade -r requirements.txt
 
 COPY . ./
-
-CMD ["python", "-m", "main"]
