@@ -4,13 +4,7 @@ import uuid
 from django.db import models
 from money import Money
 
-
-class Vendor(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=2048)
-
-    def __str__(self):
-        return self.name
+from vendors.models import Vendor
 
 
 class Purchase(models.Model):
