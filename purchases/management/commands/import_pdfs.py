@@ -80,9 +80,9 @@ def find_chase_purchases(input_glob):
     for [year, date_test, price_test, line] in find_purchases(
         input_glob, date_regex, price_regex
     ):
-        yield Purchase(
+        yield Purchase.sanitize(
             date=datetime.strptime(f"{date_test[0]}/{year}", "%m/%d/%Y"),
-            vendor=re.sub(date_regex, "", re.sub(price_regex, "", line)),
+            vendor_name=re.sub(date_regex, "", re.sub(price_regex, "", line)),
             cost=price_test[0],
         )
 
@@ -100,7 +100,7 @@ def find_barclays_purchases(input_glob):
         )
         yield Purchase.sanitize(
             date=datetime.strptime(f"{date_test[0]} {year}", "%b %d %Y"),
-            vendor=vendor,
+            vendor_name=vendor,
             cost=price_test[0],
         )
 

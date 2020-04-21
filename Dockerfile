@@ -1,6 +1,7 @@
 FROM python:3.8
 
 RUN apt-get update && apt-get install -y \
+    postgresql-client-11 \
     poppler-utils \
     python3-pil \
     tesseract-ocr
