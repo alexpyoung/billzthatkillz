@@ -1,8 +1,7 @@
-import uuid
-
 from django.db import models
 
+from lib.models import BaseModel
 
-class Vendor(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+class Vendor(BaseModel):
     name = models.CharField(max_length=2048)

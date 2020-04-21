@@ -1,14 +1,13 @@
 import re
-import uuid
 
 from django.db import models
 from money import Money
 
+from lib.models import BaseModel
 from vendors.models import Vendor
 
 
-class Purchase(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+class Purchase(BaseModel):
     date = models.DateTimeField()
     vendor = models.ForeignKey(Vendor, null=True, on_delete=models.SET_NULL)
     amount = models.DecimalField(max_digits=8, decimal_places=2)
