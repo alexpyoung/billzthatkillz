@@ -16,7 +16,6 @@ class PurchaseAdmin(admin.ModelAdmin):
 
     vendor_link.short_description = "vendor"
 
-    change_list_template = "admin/purchase_summary_change_list.html"
     date_hierarchy = "date"
     list_filter = ("date", "currency")
     search_fields = ["vendor__name"]
