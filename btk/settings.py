@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "lib.apps.LibConfig",
     "purchases.apps.PurchasesConfig",
+    "tags.apps.TagsConfig",
     "vendors.apps.VendorsConfig",
     "django.contrib.admin",
     "django.contrib.auth",
