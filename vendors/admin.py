@@ -16,18 +16,18 @@ class VendorPurchaseAdmin(admin.TabularInline):
     fk_name = "vendor"
     readonly_fields = (
         "id_link",
-        "name",
         "date",
-        "vendor",
         "amount",
         "currency",
+        "tags",
     )
+    fields = ("id_link", "date", "amount", "currency", "tags")
     can_delete = False
 
 
 @admin.register(Vendor)
 class VendorAdmin(admin.ModelAdmin):
-    readonly_fields = ("id", "name")
+    readonly_fields = ["id"]
     list_display = ("id", "name")
     list_filter = ["name"]
     inlines = [VendorPurchaseAdmin]
