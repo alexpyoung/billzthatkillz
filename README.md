@@ -1,4 +1,7 @@
 # Billz That Killz
+
+[![CI](https://github.com/alexpyoung/billzthatkillz/actions/workflows/main.yml/badge.svg)](https://github.com/alexpyoung/billzthatkillz/actions/workflows/main.yml)
+
 Rudimentary analysis of bank and credit card statements
 
 ## Usage
