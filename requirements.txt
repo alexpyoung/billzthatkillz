@@ -8,7 +8,7 @@ decorator==4.4.2
 Django==3.1.14
 entrypoints==0.3
 flake8==3.7.9
-ipython==7.16.3
+ipython==8.10.0
 ipython-genutils==0.2.0
 isort==4.3.21
 jedi==0.17.0
@@ -20,7 +20,7 @@ pdf2image==1.12.1
 pexpect==4.8.0
 pickleshare==0.7.5
 Pillow==9.3.0
-prompt-toolkit==3.0.5
+prompt-toolkit==3.0.38
 psycopg2==2.8.5
 ptyprocess==0.6.0
 pycodestyle==2.5.0
@@ -32,6 +32,6 @@ regex==2020.4.4
 six==1.14.0
 sqlparse==0.3.1
 toml==0.10.0
-traitlets==4.3.3
+traitlets==5.9.0
 typed-ast==1.4.1
 wcwidth==0.1.9
